@@ -42,6 +42,23 @@
 </head>
 
 <body>
+  <?php
+
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    session_start();
+    $student1 = array(
+      'Name' => $_POST['name'],
+      'desc' => $_POST['description'],
+      'price' => $_POST['price'],
+      'quan' => $_POST['quantity'],
+      'image' => $_POST['image']
+    );
+
+    // print_r($student1);
+  }
+
+  ?>
 
   <div class="container-fluid">
     <div class="row justify-content-center" id="r1">
@@ -66,6 +83,7 @@
     <!-- all card row -->
     <div class="tab-content">
       <div class="row justify-content-center mt-3 tab-pane fade in active" id="r2">
+
         <div class="col-md-6 ">
           <?php
           $name = ['Organic Cow Milk Pasteurized & Homogenized', 'Amrutha A2 Organic Cow Milk Pasteurized', 'Organic Cow Milk Pasteurized'];
@@ -74,93 +92,46 @@
 
           $price = ['45', '43', '40'];
           $qauntity = ['500ml', '500ml', '500ml'];
-          $image = ['item1', 'item2', 'item3'];
+          $image = ['item1.jpg', 'item2.jpg', 'item3.jpg'];
 
           $length = count($name);
 
           for ($i = 0; $i < $length; $i++) {
             echo '
+            <form id="form-' . $i . '" method="post">
            <div class="row justify-content-md-around ">
             <div class="card">
               <div class="card-body row">
                 <div class="img col-md-2">
-                  <img src="img/' . $image[$i] . '.jpg" alt="img" style="width: 100%;">
+                  <img src="img/' . $image[$i] . '" alt="img" style="width: 100%;">
+                   <input type="hidden" name="image" value="' . $image[$i] . '">
                 </div>
                 <div class="col-md-8">
                   <h5 class="card-title"> ' . $name[$i] . '</h5>
+                  <input type="hidden" name="name" value="' . $name[$i] . '">
                   <span>' . $qauntity[$i] . '</span>
+                   <input type="hidden" name="quantity" value="' . $qauntity[$i] . '">
                   <p class="card-text">' . $description[$i] . '</p>
+                   <input type="hidden" name="description" value="' . $description[$i] . '">
                   <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>' . $price[$i] . '</del>
+                   <input type="hidden" name="price" value="' . $price[$i] . '">
                  <div class="btn-container float-end"  id="btn-container-' . $i . '">
-                  <button class="btn" id="addButton" type="submit" onclick="toggleButtons(' . $i . ')
+                  <button class="btn" id="addButton" type="button" onclick="toggleButtons(' . $i . ')
                   ">Add</button>
-                  
                     </div>
                 </div>
               </div>
             </div>
           </div>
-           
+           </form>
            ';
           }
 
           ?>
-
-          <!-- <div class="row justify-content-md-around ">
-            <div class="card">
-              <div class="card-body row">
-                <div class="img col-md-2">
-                  <img src="img/item1.jpg" alt="img" style="width: 100%;">
-                </div>
-                <div class="col-md-8">
-                  <h5 class="card-title">Organic Cow Milk Pasteurized & Homogenized</h5>
-                  <span>500 ml</span>
-                  <p class="card-text">Pasteurized and homogenized - Ready-to-consume nutrition on the go!</p>
-                  <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>45</del>
-                  <button type="submit" class="btn btn-primary float-end">Add</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- second row -->
-          <!-- <div class="row justify-content-md-around mt-2">
-            <div class="card">
-              <div class="card-body row">
-                <div class="img col-md-2">
-                  <img src="img/item2.jpg" alt="img" style="width: 100%;">
-                </div>
-                <div class="col-md-8">
-                  <h5 class="card-title">Organic Cow Milk Pasteurized</h5>
-                  <span>500 ml</span>
-                  <p class="card-text">No-boiling-required, ready-to-consume milk!</p>
-                  <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>40</del>
-                  <a href="#" class="btn btn-primary float-end">Add</a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- third row -->
-          <!-- <div class="row justify-content-md-around mt-2">
-            <div class="card">
-              <div class="card-body row">
-                <div class="img col-md-2">
-                  <img src="img/item3.jpg" alt="img" style="width: 100%;">
-                </div>
-                <div class="col-md-8">
-                  <h5 class="card-title">Organic Cow Milk Pasteurized & Homogenized</h5>
-                  <span>500 ml</span>
-                  <p class="card-text">Pasteurized and homogenized - Ready-to-consume nutrition on the go!</p>
-                  <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>450</del>
-                  <a href="#" class="btn btn-primary float-end">Add</a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-
         </div>
       </div>
+
+      <!-- second toggle -->
 
       <div class="row justify-content-center mt-3 tab-pane fade" id="r3">
         <div class="col-md-6 ">
@@ -171,23 +142,29 @@
 
           $price = ['25', '35', '30'];
           $qauntity = ['200ml', '200ml', '200ml'];
-          $image = ['item4', 'item5', 'item6'];
+          $image = ['item4.png', 'item5.png', 'item6.png'];
 
           $length = count($name);
 
           for ($i = 0; $i < $length; $i++) {
             echo '
+             <form id="form-' . $i . '" method="post">
              <div class="row justify-content-md-around ">
             <div class="card">
               <div class="card-body row">
                 <div class="img col-md-2">
-                  <img src="img/' . $image[$i] . '.png" alt="img" style="width: 100%;">
+                  <img src="img/' . $image[$i] . '" alt="img" style="width: 100%;">
+                   <input type="hidden" name="image" value="' . $image[$i] . '">
                 </div>
                 <div class="col-md-8">
                   <h5 class="card-title">' . $name[$i] . '</h5>
-                  <span>200 ml</span>
+                   <input type="hidden" name="name" value="' . $name[$i] . '">
+                  <span>' . $qauntity[$i] . '</span>
+                   <input type="hidden" name="quantity" value="' . $qauntity[$i] . '">
                   <p class="card-text">' . $description[$i] . '</p>
+                  <input type="hidden" name="description" value="' . $description[$i] . '">
                   <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>' . $price[$i] . '</del>
+                  <input type="hidden" name="price" value="' . $price[$i] . '">
                   <div class="btn-container1 float-end"  id="btn-container1-' . $i . '">
                   <button class="btn" id="addButton" type="submit" onclick="toggleButtons1(' . $i . ')
                   ">Add</button>
@@ -197,75 +174,20 @@
               </div>
             </div>
           </div>
-            
+            </form>
             ';
           }
 
           ?>
-          <!-- <div class="row justify-content-md-around ">
-            <div class="card">
-              <div class="card-body row">
-                <div class="img col-md-2">
-                  <img src="img/item4.png" alt="img" style="width: 100%;">
-                </div>
-                <div class="col-md-8">
-                  <h5 class="card-title">Organic Buttermilk On-The-Go pack (Spiced)</h5>
-                  <span>200 ml</span>
-                  <p class="card-text">Pasteurized and homogenized - Ready-to-consume nutrition on the go!</p>
-                  <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>45</del>
-                  <a href="#" class="btn btn-primary float-end">Add</a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- second row -->
-          <!-- <div class="row justify-content-md-around mt-2">
-            <div class="card">
-              <div class="card-body row">
-                <div class="img col-md-2">
-                  <img src="img/item5.png" alt="img" style="width: 100%;">
-                </div>
-                <div class="col-md-8">
-                  <h5 class="card-title">Organic Buttermilk On-The-Go pack (Plain)</h5>
-                  <span>200 ml</span>
-                  <p class="card-text">No-boiling-required, ready-to-consume milk!</p>
-                  <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>40</del>
-                  <a href="#" class="btn btn-primary float-end">Add</a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- third row -->
-          <!-- <div class="row justify-content-md-around mt-2">
-            <div class="card">
-              <div class="card-body row">
-                <div class="img col-md-2">
-                  <img src="img/item6.png" alt="img" style="width: 100%;">
-                </div>
-                <div class="col-md-8">
-                  <h5 class="card-title">Organic Probiotic Buttermilk Spiced</h5>
-                  <span>200 ml</span>
-                  <p class="card-text">Pasteurized and homogenized - Ready-to-consume nutrition on the go!</p>
-                  <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>450</del>
-                  <a href="#" class="btn btn-primary float-end">Add</a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-
         </div>
       </div>
 
     </div>
-    </form>
-
 
     <div class="row  mt-3 mb-2">
       <div class="col-md-2"></div>
-      <button class="btn btn-primary col-md-6"><a href="" style="color: white;text-decoration: none;">Book Free
-          Sample</a></button>
+      <button class="btn btn-primary col-md-6"><a href="register.php" style="color: white;text-decoration: none;">Continue Free
+        </a></button>
     </div>
 
   </div>
@@ -288,26 +210,29 @@
           <button class="btn btn-disabled">+</button>
           <span id="valueDisplay-${index}">${currentValue}</span>
           <button class="btn" onclick="revertToAdd(${index})">-</button>
+            <button class="btn" onclick="submitForm(${index})">Order</button>
       `;
   }
 
   function resetAllButtons() {
     const containers = document.querySelectorAll('.btn-container');
     containers.forEach((container, i) => {
-      container.innerHTML = `<button class="btn" type="button" onclick="toggleButtons(${i})">Add</button>`;
+      container.innerHTML = `<button class="btn" type="submit" name="submit"  onclick="toggleButtons(${i})">Add</button>`;
     });
   }
 
   function revertToAdd(index) {
     // Reset the specific button back to "Add"
     const container = document.getElementById('btn-container-' + index);
-    container.innerHTML = `<button class="btn" type="button" onclick="toggleButtons(${index})">Add</button>`;
+    container.innerHTML = `<button class="btn" type="submit" name="submit"  onclick="toggleButtons(${index})">Add</button>`;
   }
 
+  function submitForm(index) {
+    const form = document.getElementById('form-' + index);
+    form.submit();
+  }
 
-
-
-  // other organic product
+  // other organic product 2nd row
 
   function toggleButtons1(index) {
     // Reset all buttons first
@@ -321,19 +246,20 @@
           <button class="btn btn-disabled">+</button>
           <span id="valueDisplay-${index}">${currentValue}</span>
           <button class="btn" onclick="revertToAdd1(${index})">-</button>
+          <button class="btn" onclick="submitForm1(${index})">Order</button>
       `;
   }
 
   function resetAllButtons1() {
     const containers = document.querySelectorAll('.btn-container1');
     containers.forEach((container, i) => {
-      container.innerHTML = `<button class="btn" type="button" onclick="toggleButtons1(${i})">Add</button>`;
+      container.innerHTML = `<button class="btn" type="submit" onclick="toggleButtons1(${i})">Add</button>`;
     });
   }
 
   function revertToAdd1(index) {
     // Reset the specific button back to "Add"
     const container = document.getElementById('btn-container1-' + index);
-    container.innerHTML = `<button class="btn" type="button" onclick="toggleButtons1(${index})">Add</button>`;
+    container.innerHTML = `<button class="btn" type="submit" onclick="toggleButtons1(${index})">Add</button>`;
   }
 </script>

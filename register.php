@@ -27,8 +27,7 @@ if (isset($_POST['submit'])) {
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
-    header("location:index.html");
-    // header("location:");
+    header("location:address.php");
   } else {
     echo "invalid error";
   }

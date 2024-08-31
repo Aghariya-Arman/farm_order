@@ -55,7 +55,9 @@
       'image' => $_POST['image']
     );
 
-    // print_r($student1);
+
+    $_SESSION['data'] = $student1;
+    // print_r($_SESSION['data']);
   }
 
   ?>

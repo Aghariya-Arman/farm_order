@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>farm_order</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -23,13 +22,21 @@ if (isset($_POST['submit'])) {
   $email = $_POST['email'];
   $gender = $_POST['gender'];
 
-  $sql = "insert into customer_reg (customer_name,customer_number,customer_email,customer_gender)values ('$name','$mobile','$email','$gender')";
+  $sql = "select customer_number from customer_reg where customer_number='$mobile'";
   $result = mysqli_query($conn, $sql);
 
-  if ($result) {
-    header("location:address.php");
+  if (mysqli_num_rows($result) > 0) {
+    echo '<script>alert("user allready register here...")</script>';
   } else {
-    echo "invalid error";
+
+    $sql = "insert into customer_reg (customer_name,customer_number,customer_email,customer_gender)values ('$name','$mobile','$email','$gender')";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+      header("location:address.php");
+    } else {
+      echo "invalid error";
+    }
   }
 }
 

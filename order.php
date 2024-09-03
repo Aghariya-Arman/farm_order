@@ -52,7 +52,8 @@
       'desc' => $_POST['description'],
       'price' => $_POST['price'],
       'quan' => $_POST['quantity'],
-      'image' => $_POST['image']
+      'image' => $_POST['image'],
+      'pid' => $_POST['product_id'],
     );
 
 
@@ -95,6 +96,7 @@
           $price = ['45', '43', '40'];
           $qauntity = ['500ml', '500ml', '500ml'];
           $image = ['item1.jpg', 'item2.jpg', 'item3.jpg'];
+          $pid = ['p1', 'p2', 'p3', 'p4'];
 
           $length = count($name);
 
@@ -109,6 +111,7 @@
                    <input type="hidden" name="image" value="' . $image[$i] . '">
                 </div>
                 <div class="col-md-8">
+                <input type="hidden" name="product_id" value="' . $pid[$i] . '">
                   <h5 class="card-title"> ' . $name[$i] . '</h5>
                   <input type="hidden" name="name" value="' . $name[$i] . '">
                   <span>' . $qauntity[$i] . '</span>
@@ -118,7 +121,7 @@
                   <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>' . $price[$i] . '</del>
                    <input type="hidden" name="price" value="' . $price[$i] . '">
                  <div class="btn-container float-end"  id="btn-container-' . $i . '">
-                  <button class="btn" id="addButton" type="button" onclick="toggleButtons(' . $i . ')
+                  <button class="btn" id="addButton" type="button" onclick="toggleButtons(' . $i . '); updatequantity1();
                   ">Add</button>
                     </div>
                 </div>
@@ -133,7 +136,7 @@
         </div>
       </div>
 
-      <!-- second toggle -->
+      <!-- ****************  second toggle   ******************* -->
 
       <div class="row justify-content-center mt-3 tab-pane fade" id="r3">
         <div class="col-md-6 ">
@@ -145,6 +148,7 @@
           $price = ['25', '35', '30'];
           $qauntity = ['200ml', '200ml', '200ml'];
           $image = ['item4.png', 'item5.png', 'item6.png'];
+          $pid = ['p11', 'p12', 'p13', 'p16'];
 
           $length = count($name);
 
@@ -159,6 +163,7 @@
                    <input type="hidden" name="image" value="' . $image[$i] . '">
                 </div>
                 <div class="col-md-8">
+                 <input type="hidden" name="product_id" value="' . $pid[$i] . '">
                   <h5 class="card-title">' . $name[$i] . '</h5>
                    <input type="hidden" name="name" value="' . $name[$i] . '">
                   <span>' . $qauntity[$i] . '</span>
@@ -168,7 +173,7 @@
                   <span style="color: rgb(93, 162, 93);"><b> FREE</b> </span><del>' . $price[$i] . '</del>
                   <input type="hidden" name="price" value="' . $price[$i] . '">
                   <div class="btn-container1 float-end"  id="btn-container1-' . $i . '">
-                  <button class="btn" id="addButton" type="submit" onclick="toggleButtons1(' . $i . ')
+                  <button class="btn" id="addButton" type="submit" onclick="toggleButtons1(' . $i . ');updatequantity1();
                   ">Add</button>
                   
                     </div>
@@ -188,7 +193,13 @@
 
     <div class="row  mt-3 mb-2">
       <div class="col-md-2"></div>
-      <button class="btn btn-primary col-md-6"><a href="register.php" style="color: white;text-decoration: none;">Continue Free
+      <button class="btn btn-primary col-md-6"><a href="register.php" style="color: white;text-decoration: none;">
+          <div class="float-start">
+            <h5 id="itemCountDisplay">0 item(s)</h5>
+          </div>
+          <div class="float-end">
+            <h4>Continue</h4>
+          </div>
         </a></button>
     </div>
 
@@ -200,43 +211,71 @@
 
 
 <script>
+  let totalquantity = 1;
+
   function toggleButtons(index) {
+
+    updatequantity1();
+
     // Reset all buttons first
     resetAllButtons();
-
     // Set the clicked button's container to show increment/decrement buttons
     const container = document.getElementById('btn-container-' + index);
-    let currentValue = 1;
+    let currentvalue = 1;
+
 
     container.innerHTML = `
           <button class="btn btn-disabled">+</button>
-          <span id="valueDisplay-${index}">${currentValue}</span>
+          <span id="valueDisplay-${index}">${currentvalue}</span>
           <button class="btn" onclick="revertToAdd(${index})">-</button>
-            <button class="btn" onclick="submitForm(${index})">Order</button>
+          <button class="btn" onclick="submitForm(${index})">order</button>
+ 
       `;
+
   }
+
 
   function resetAllButtons() {
     const containers = document.querySelectorAll('.btn-container');
     containers.forEach((container, i) => {
       container.innerHTML = `<button class="btn" type="submit" name="submit"  onclick="toggleButtons(${i})">Add</button>`;
     });
+
   }
 
   function revertToAdd(index) {
+    updatequantity();
     // Reset the specific button back to "Add"
     const container = document.getElementById('btn-container-' + index);
     container.innerHTML = `<button class="btn" type="submit" name="submit"  onclick="toggleButtons(${index})">Add</button>`;
+
   }
 
   function submitForm(index) {
     const form = document.getElementById('form-' + index);
     form.submit();
   }
+  //decrece total quantity
+  function updatequantity() {
+    totalquantity = 0;
+    const itemCountDisplay = document.getElementById('itemCountDisplay');
+    itemCountDisplay.textContent = `${totalquantity} item(s)`;
 
-  // other organic product 2nd row
+
+  }
+  //increase total quantity
+  function updatequantity1() {
+    totalquantity = 1;
+    const itemCountDisplay = document.getElementById('itemCountDisplay');
+    itemCountDisplay.textContent = `${totalquantity} item(s)`;
+  }
+
+
+
+  // ***************** other organic product 2nd row      *****************
 
   function toggleButtons1(index) {
+    updatequantity1();
     // Reset all buttons first
     resetAllButtons1();
 
@@ -248,7 +287,7 @@
           <button class="btn btn-disabled">+</button>
           <span id="valueDisplay-${index}">${currentValue}</span>
           <button class="btn" onclick="revertToAdd1(${index})">-</button>
-          <button class="btn" onclick="submitForm1(${index})">Order</button>
+          <button class="btn" onclick="submitForm(${index})">Order</button>
       `;
   }
 
@@ -260,6 +299,7 @@
   }
 
   function revertToAdd1(index) {
+    updatequantity();
     // Reset the specific button back to "Add"
     const container = document.getElementById('btn-container1-' + index);
     container.innerHTML = `<button class="btn" type="submit" onclick="toggleButtons1(${index})">Add</button>`;

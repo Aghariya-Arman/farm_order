@@ -62,14 +62,22 @@ if (isset($_POST['submit'])) {
   $pincode = $_POST['pincode'];
 
   $sql = "insert into user_address (customer_address,customer_florno,customer_city,customer_pincode) values (' $address',' $floornumber','  $city','$pincode')";
-
   $result = mysqli_query($conn, $sql);
 
-  $sql = "insert into customer_order (product_id,p_image,order_date) values (' $product_id','$image',' $date')";
+  $sql = "SELECT address_id  FROM user_address ORDER BY address_id DESC LIMIT 1;";
+  $result = mysqli_query($conn, $sql);
+
+  if ($row = mysqli_fetch_assoc($result)) {
+    $id = $row['address_id'];
+    // print_r($id);
+    // exit;
+  }
+
+  $sql = "insert into customer_order (product_id,p_image,add_id,order_date) values (' $product_id','$image','$id',' $date')";
 
   $result = mysqli_query($conn, $sql);
   if ($result) {
-    header("Location:success.html");
+    header("Location:success.php");
   } else {
     die(mysqli_error($conn));
   }
